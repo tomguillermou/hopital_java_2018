@@ -15,21 +15,21 @@ import modele.*;
  */
 public class ConnectionController {
     
-    private boolean nextFrameShown = false;
-    
     // Fenêtre à afficher si on se connecte
-    EFrame nextFrame;
+    EFrame frameToShow;
+    // Booléen qui indique si la fenêtre suivante est affichée
+    private boolean frameShown = false;
     
     /**
      * Constructeur surchargé avec la fenêtre suivante
-     * @param nextFrame
+     * @param frameToShow
      */
-    public ConnectionController(EFrame nextFrame) {
-      this.nextFrame = nextFrame;
+    public ConnectionController(EFrame frameToShow) {
+      this.frameToShow = frameToShow;
     }
     
     public boolean isNextFrameShown() {
-        return this.nextFrameShown;
+        return this.frameShown;
     }
     
     public void ButtonConnectionPressed(String database, String user, String password) {
@@ -59,8 +59,9 @@ public class ConnectionController {
         if(Connexion.getInstance().isConnected()) {
             
             // Affiche la fenêtre suivante
-            nextFrame.showEFrame();
-            nextFrameShown = true;
+            frameToShow.showEFrame();
+            // La fenêtre suivante est affichée
+            frameShown = true;
         }
     }   
 }

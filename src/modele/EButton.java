@@ -19,5 +19,4 @@ public class EButton extends JButton {
         super(name);
         this.name = name;
     }
-    
 }
