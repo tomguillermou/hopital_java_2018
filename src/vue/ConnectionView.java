@@ -25,12 +25,15 @@ public class ConnectionView extends EFrame {
     // Contrôleur de la fenêtre de connexion
     private final ConnectionController conController;
     
+    // Panneau contenant des composants graphiques
     private final JPanel boxComponents;
-     
+    
+    // Labels database, user, password
     private final JLabel labelDatabase;
     private final JLabel labelUser;
     private final JLabel labelPassword;
     
+    // Text fields database, user, password
     private final JTextField fieldDatabase;
     private final JTextField fieldUser;
     private final JTextField fieldPassword;
@@ -84,12 +87,18 @@ public class ConnectionView extends EFrame {
         @Override
         public void actionPerformed(ActionEvent ae) {
             
+            // Récupère les données des champs de saisie de texte
             String database = fieldDatabase.getText();
             String user = fieldUser.getText();
             String password = fieldPassword.getText();
             
             // Appel à la fonction de connexion du contrôleur
             conController.ButtonConnectionPressed(database, user, password);
+            
+            // Libère la fenêtre de connexion si la fenêtre suivante est affichée
+            if(conController.isNextFrameShown()) {
+                dispose();
+            }
         }
     }
     

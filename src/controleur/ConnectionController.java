@@ -15,11 +15,21 @@ import modele.*;
  */
 public class ConnectionController {
     
+    private boolean nextFrameShown = false;
+    
+    // Fenêtre à afficher si on se connecte
+    EFrame nextFrame;
+    
     /**
-     * Constructeur par défaut
+     * Constructeur surchargé avec la fenêtre suivante
+     * @param nextFrame
      */
-    public ConnectionController() {
-      // Nothing
+    public ConnectionController(EFrame nextFrame) {
+      this.nextFrame = nextFrame;
+    }
+    
+    public boolean isNextFrameShown() {
+        return this.nextFrameShown;
     }
     
     public void ButtonConnectionPressed(String database, String user, String password) {
@@ -43,6 +53,14 @@ public class ConnectionController {
 
             // Affiche une boîte de dialogue erreur
             JOptionPane.showMessageDialog(null, "Wrong identifiers", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        // Si la connexion est établie
+        if(Connexion.getInstance().isConnected()) {
+            
+            // Affiche la fenêtre suivante
+            nextFrame.showEFrame();
+            nextFrameShown = true;
         }
     }   
 }

@@ -5,9 +5,8 @@
  */
 package controleur;
 
-import controleur.ConnectionController;
-import modele.Connexion;
 import vue.ConnectionView;
+import vue.ManagerView;
 
 /**
  * 
@@ -20,10 +19,11 @@ public class ApplicationController {
      */
     public static void main(String[] args) {
         
-        boolean run = true;
+        // Vue de la fenêtre de gestion principale
+        ManagerView nFrame = new ManagerView("Next Frame", 300, 300);
         
         // Contrôleur de la fenêtre de connexion
-        ConnectionController conController = new ConnectionController();
+        ConnectionController conController = new ConnectionController(nFrame);
         // Vue de la fenêtre de connexion
         ConnectionView conView = new ConnectionView(conController, "Connexion", 200, 500);
         
