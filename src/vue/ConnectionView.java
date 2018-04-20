@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import modele.EButton;
 import modele.EFrame;
 
@@ -41,9 +44,17 @@ public class ConnectionView extends EFrame {
     private final EButton buttonConnection;
     
     public ConnectionView(ConnectionController conController, String title, int height, int width) {
-        
         // Appel du constructeur de la classe mère
         super(title, height, width);
+        
+        // Look and feel natif de l'OS hôte
+        try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         // Lie le contrôleur passé en paramètre au contrôleur de la classe
         this.conController = conController;
