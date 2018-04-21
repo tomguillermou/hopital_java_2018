@@ -39,7 +39,8 @@ public class ApplicationController {
         // Contrôleur de la fenêtre de connexion
         ConnectionController connectionController = new ConnectionController(managerView);
         // Vue de la fenêtre de connexion
-        ConnectionView connectionView = new ConnectionView(connectionController, "Connexion", 200, 500);
+        ConnectionView connectionView = new ConnectionView(connectionController, "Connexion", 200, 300);
+        connectionView.setResizable(false);
         
         // Affiche la fenêtre de connexion
         connectionView.showEFrame();

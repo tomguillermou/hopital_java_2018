@@ -21,6 +21,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import modele.Connexion;
 import modele.EFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JComboBox;
@@ -106,6 +107,7 @@ public class ReportingView extends EFrame implements ActionListener {
 	// WIP
 	private XYDataset SQLtoDataset (String sqlquery) {
 		
+		//Connexion.getInstance().buildTableModel(Connexion.getInstance().searchTable("hopital", columnName, value);)
 		XYSeries series = new XYSeries("2016");
 		
 		XYSeriesCollection dataset = new XYSeriesCollection();

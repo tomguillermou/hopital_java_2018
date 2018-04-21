@@ -73,6 +73,7 @@ public class SearchView extends EFrame {
         panelTable.add(boxTable);
         
         panelColumn.add(searchColumnLabel);
+        boxColumn.setModel(chambreModel); // Choix par défaut, empêche NullPointerException
         panelColumn.add(boxColumn);
         
         panelValue.add(searchValueLabel);

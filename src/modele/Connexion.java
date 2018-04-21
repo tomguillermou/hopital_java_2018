@@ -114,6 +114,10 @@ public class Connexion {
         
     }
     
+    public void getTable(String sqlQuery) {
+    	
+    }
+    
     public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
         ResultSetMetaData metaData = rs.getMetaData();

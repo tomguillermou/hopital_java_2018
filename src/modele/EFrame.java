@@ -25,7 +25,7 @@ public abstract class EFrame extends JFrame {
         
         this.setTitle(this.title);
         this.setSize(this.width, this.height);
-        this.setResizable(false);
+        //this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
