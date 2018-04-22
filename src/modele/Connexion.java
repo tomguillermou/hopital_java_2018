@@ -41,8 +41,8 @@ public class Connexion {
     }
     
     /**
-     * Retourne la valeur indiquant si la BBD est connectée
-     * @return Booléen informant sur la connexion
+     * Retourne le booléen indiquant si la connection avec la BBD est établie
+     * @return boolean
      */
     public boolean isConnected() {
         return this.connectionEstablihed;
@@ -85,7 +85,7 @@ public class Connexion {
     }
 
     /**
-     *  Effectue la requête passée en paramètre et affiche le résultat
+     * Affiche le résultat de la requête SQL selon des critères de recherche
      * @param tableName
      * @param columnName
      * @param value
@@ -106,10 +106,7 @@ public class Connexion {
         }
         
         resultSet = statement.executeQuery(querySQL);
-        
-        // It creates and displays the table
         JTable table = new JTable(buildTableModel(resultSet));
-
         JOptionPane.showMessageDialog(null, new JScrollPane(table));
         
     }
@@ -118,6 +115,14 @@ public class Connexion {
     	
     }
     
+    /**
+     * Creates and return a DefaultTableModel built with a SQL query
+     * Function written by: https://stackoverflow.com/users/870248/paul-vargas
+     * Reference to the StackOverflow post: https://stackoverflow.com/questions/10620448/most-simple-code-to-populate-jtable-from-resultset
+     * @param rs
+     * @return DefaultTableModel
+     * @throws SQLException
+     */
     public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
         ResultSetMetaData metaData = rs.getMetaData();
@@ -138,7 +143,8 @@ public class Connexion {
             }
             data.add(vector);
         }
-
+        
+        // default table model built via data and columns names
         return new DefaultTableModel(data, columnNames);
     }
 }
