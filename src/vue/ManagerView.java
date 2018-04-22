@@ -9,8 +9,17 @@ import controleur.ManagerController;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 import modele.EButton;
 import modele.EFrame;
+import net.miginfocom.swing.MigLayout;
 
 /**
  *
@@ -34,23 +43,33 @@ public class ManagerView extends EFrame {
         // Lie le contrôleur de la fenêtre avec celui passé en paramètre
         this.managerController = managerController;
         
-        // Ajout d'un GridLayout au panneau principal
-        this.setLayout(new GridLayout(3, 1));
-        
-        // Bouton Reporting
-        buttonReporting = new EButton("Reporting");
-        buttonReporting.addActionListener(new ButtonReportingListener());
-        this.getContentPane().add(buttonReporting);
-        
-        // Bouton Search
-        buttonSearch = new EButton("Search");
-        buttonSearch.addActionListener(new ButtonSearchListener());
-        this.getContentPane().add(buttonSearch);
+        getContentPane().setLayout(new MigLayout("", "[198.00px,grow,fill]", "[88px,center][grow][grow][grow]"));
+        /// WIP 
+        //Image d'accueil
+        BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File("res\\logo.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+        getContentPane().add(picLabel, "cell 0 0");
         
         // Bouton Update
         buttonUpdate = new EButton("Update");
         buttonUpdate.addActionListener(new ButtonUpdateListener());
-        this.getContentPane().add(buttonUpdate);
+        
+        // Bouton Search
+        buttonSearch = new EButton("Search");
+        buttonSearch.addActionListener(new ButtonSearchListener());
+        
+        // Bouton Reporting
+        buttonReporting = new EButton("Reporting");
+        buttonReporting.addActionListener(new ButtonReportingListener());
+        this.getContentPane().add(buttonReporting, "cell 0 1,grow");
+        this.getContentPane().add(buttonSearch, "cell 0 2,grow");
+        this.getContentPane().add(buttonUpdate, "cell 0 3,grow");
     }
     
     /*

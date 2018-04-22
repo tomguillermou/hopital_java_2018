@@ -26,7 +26,8 @@ public class ApplicationController {
         ReportingView reportingView = new ReportingView("Reporting", 70, 500);
         
         // Vue de la fenêtre de recherche
-        SearchView searchView = new SearchView("Search", 500, 1000);
+        SearchView searchView = new SearchView("Search", 163, 500);
+        searchView.setResizable(false);
         
         // Vue de la fenêtre d'update
         UpdateView updateView = new UpdateView("Update", 500, 500);
@@ -34,7 +35,8 @@ public class ApplicationController {
         // Contrôleur de la fenêtre de gestion
         ManagerController manangerController = new ManagerController(reportingView, searchView, updateView);
         // Vue de la fenêtre de gestion
-        ManagerView managerView = new ManagerView(manangerController, "Gestion du centre hospitalier", 500, 500);
+        ManagerView managerView = new ManagerView(manangerController, "Gestion du centre hospitalier", 300, 375);
+        managerView.setResizable(false);
         
         // Contrôleur de la fenêtre de connexion
         ConnectionController connectionController = new ConnectionController(managerView);

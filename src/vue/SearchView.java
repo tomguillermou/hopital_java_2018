@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,7 +67,7 @@ public class SearchView extends EFrame {
 
 		// Initialise le container & lui ajoute un FlowLayout
 		container = this.getContentPane();
-		getContentPane().setLayout(new MigLayout("", "[150.00px][218px,grow]", "[][][][35.00px][][37.00,grow]"));
+		getContentPane().setLayout(new MigLayout("", "[150.00px][218px,grow]", "[][][][35.00px,bottom][][37.00,grow,fill]"));
 		getContentPane().add(searchTableLabel, "cell 0 0,grow");
 
 		// ComboBox contenant les choix de recherche que l'ont peut effectuer
@@ -89,7 +90,9 @@ public class SearchView extends EFrame {
 		container.add(buttonSearch, "cell 1 3,alignx right,growy");
 
 		getContentPane().add(separator, "cell 0 4 2 1,growx");
+		separator.setVisible(false);
 		container.add(scrollPane, "cell 0 5 2 1,grow");
+		scrollPane.setVisible(false);
 	}
 
 	// Classe interne implémentant l'interface ItemListener
@@ -130,6 +133,12 @@ public class SearchView extends EFrame {
 			String columnName = boxColumn.getSelectedItem().toString();
 			String value = fieldValue.getText();
 
+			separator.setVisible(true);
+			scrollPane.setVisible(true);
+			setResizable(true);
+			setMinimumSize(new Dimension(500,300));
+			setSize(500,500);
+			
 			try {
 				table.setModel(Connexion.getInstance()
 						.buildTableModel(Connexion.getInstance().searchTable(tableName, columnName, value)));
