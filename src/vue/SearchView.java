@@ -22,7 +22,7 @@ import modele.EFrame;
  */
 public class SearchView extends EFrame {
     
-    // Elements graphiques pour la fenêtre de recherche
+    // Eléments graphiques pour la fenêtre de recherche
     private final Container container;
     private final JPanel panelTable = new JPanel(new GridLayout(2, 1));
     private final JPanel panelColumn = new JPanel(new GridLayout(2, 1));
@@ -30,12 +30,12 @@ public class SearchView extends EFrame {
     private final JLabel searchTableLabel = new JLabel("Je recherche dans la table :");
     private final JLabel searchColumnLabel = new JLabel("Je recherche dans la colonne :");
     private final JLabel searchValueLabel = new JLabel("Avec la valeur :");
-    private final JComboBox boxTable;
-    private final JComboBox boxColumn;
-    private final JTextField fieldValue;
+    private final JComboBox comboBoxTable;
+    private final JComboBox comboBoxColumn = new JComboBox();
+    private final JTextField fieldValue = new JTextField();
     private final JButton buttonSearch = new JButton("Search");
-    private JTable table = new JTable();
-    private JScrollPane scrollPane = new JScrollPane(table);
+    private final JTable table = new JTable();
+    private final JScrollPane scrollPane = new JScrollPane(table);
     
     // Modèle de ComboBox pour sélectionner les colonnes des différentes tables de la BDD
     private final DefaultComboBoxModel chambreModel = new DefaultComboBoxModel(new String[]{"tout", "code_service", "no_chambre", "surveillant", "nb_lits"});
@@ -57,22 +57,19 @@ public class SearchView extends EFrame {
         container.setLayout(new GridLayout(5, 1));
 
         // ComboBox contenant les choix de recherche que l'ont peut effectuer
-        boxTable = new JComboBox(Connexion.getInstance().getTablesNames());
+        comboBoxTable = new JComboBox(Connexion.getInstance().getTablesNames());
         
         // Ajoute le ActionListener adapté à la ComboBox
-        boxTable.addActionListener(new BoxTableListener());
-        
-        boxColumn = new JComboBox();
-        fieldValue = new JTextField();
+        comboBoxTable.addActionListener(new BoxTableListener());
         
         buttonSearch.addActionListener(new ButtonSearchListener());
         
         panelTable.add(searchTableLabel);
-        panelTable.add(boxTable);
+        panelTable.add(comboBoxTable);
         
         panelColumn.add(searchColumnLabel);
-        boxColumn.setModel(chambreModel); // Choix par défaut, empêche NullPointerException
-        panelColumn.add(boxColumn);
+        comboBoxColumn.setModel(chambreModel); // Choix par défaut, empêche NullPointerException
+        panelColumn.add(comboBoxColumn);
         
         panelValue.add(searchValueLabel);
         panelValue.add(fieldValue);
@@ -84,48 +81,53 @@ public class SearchView extends EFrame {
         container.add(scrollPane);
     }
     
-    //Classe interne implémentant l'interface ItemListener
+    /**
+     * Classe interne implémentant l'interface ItemListener
+     */
     class BoxTableListener implements ActionListener{           
         
         @Override
         public void actionPerformed(ActionEvent ae) { 
             
             // Affecte le modèle de la seconde ComboBox en fonction du choix fait dans la première ComboBox
-            if("chambre".equals(boxTable.getSelectedItem())) {
-                boxColumn.setModel(chambreModel);
+            if("chambre".equals(comboBoxTable.getSelectedItem())) {
+                comboBoxColumn.setModel(chambreModel);
             }
-            else if("docteur".equals(boxTable.getSelectedItem())) {
-                boxColumn.setModel(docteurModel);
+            else if("docteur".equals(comboBoxTable.getSelectedItem())) {
+                comboBoxColumn.setModel(docteurModel);
             }
-            else if("employe".equals(boxTable.getSelectedItem())) {
-                boxColumn.setModel(employeModel);
+            else if("employe".equals(comboBoxTable.getSelectedItem())) {
+                comboBoxColumn.setModel(employeModel);
             }
-            else if("hospitalisation".equals(boxTable.getSelectedItem())) {
-                boxColumn.setModel(hospitalisationModel);
+            else if("hospitalisation".equals(comboBoxTable.getSelectedItem())) {
+                comboBoxColumn.setModel(hospitalisationModel);
             }
-            else if("infirmier".equals(boxTable.getSelectedItem())) {
-                boxColumn.setModel(infirmierModel);
+            else if("infirmier".equals(comboBoxTable.getSelectedItem())) {
+                comboBoxColumn.setModel(infirmierModel);
             }
-            else if("malade".equals(boxTable.getSelectedItem())) {
-                boxColumn.setModel(maladeModel);
+            else if("malade".equals(comboBoxTable.getSelectedItem())) {
+                comboBoxColumn.setModel(maladeModel);
             }
-            else if("service".equals(boxTable.getSelectedItem())) {
-                boxColumn.setModel(serviceModel);
+            else if("service".equals(comboBoxTable.getSelectedItem())) {
+                comboBoxColumn.setModel(serviceModel);
             }
-            else if("soigne".equals(boxTable.getSelectedItem())) {
-                boxColumn.setModel(soigneModel);
+            else if("soigne".equals(comboBoxTable.getSelectedItem())) {
+                comboBoxColumn.setModel(soigneModel);
             }
         }
     }
-
+    
+    /**
+     * Classe interne implémentant l'interface ActionListener
+     */
     class ButtonSearchListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             
             // Entrées utilisateur
-            String tableName = boxTable.getSelectedItem().toString();
-            String columnName = boxColumn.getSelectedItem().toString();
+            String tableName = comboBoxTable.getSelectedItem().toString();
+            String columnName = comboBoxColumn.getSelectedItem().toString();
             String value = fieldValue.getText();
             
             try {

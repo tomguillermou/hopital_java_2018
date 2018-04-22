@@ -29,7 +29,7 @@ public class ApplicationController {
         SearchView searchView = new SearchView("Search", 500, 1000);
         
         // Vue de la fenêtre d'update
-        UpdateView updateView = new UpdateView("Update", 500, 500);
+        UpdateView updateView = new UpdateView("Mise à jour", 500, 500);
         
         // Contrôleur de la fenêtre de gestion
         ManagerController manangerController = new ManagerController(reportingView, searchView, updateView);

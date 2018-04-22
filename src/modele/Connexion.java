@@ -6,6 +6,11 @@ package modele;
  */
 import java.sql.*;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -84,6 +89,32 @@ public class Connexion {
         
         // Statement for SQL query
         statement = connection.createStatement();
+    }
+    
+    public void executeSqlQuery(String sqlQuery, String message) {
+        try {
+            if(statement.executeUpdate(sqlQuery) == 1) {
+                JOptionPane.showMessageDialog(null, "SUCCES: Données " + message);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ECHEC: Données non" + message);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     *  Exécute une requête SQL et renvoie le ResultSet associé
+     * @param sqlQuery
+     * @return
+     * @throws SQLException
+     */
+    public ResultSet searchQuery(String sqlQuery) throws SQLException {
+        // Exécute la requête SQL passée en paramètre
+        resultSet = statement.executeQuery(sqlQuery);
+        // Retourne le ResultSet récupéré via la requête
+        return resultSet;
     }
 
     /**
