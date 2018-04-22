@@ -6,12 +6,9 @@
 package vue;
 
 import controleur.ConnectionController;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -41,8 +38,15 @@ public class ConnectionView extends EFrame {
     private final JTextField fieldPassword;
     
     private final EButton buttonConnection;
-    private JSeparator separator_1;
+    private final JSeparator separator_1;
     
+    /**
+     * Constructeur surchargé
+     * @param conController
+     * @param title
+     * @param height
+     * @param width
+     */
     public ConnectionView(ConnectionController conController, String title, int height, int width) {
         // Appel du constructeur de la classe mère
         super(title, height, width);
