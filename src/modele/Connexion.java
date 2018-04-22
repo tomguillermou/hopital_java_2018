@@ -6,9 +6,6 @@ package modele;
  */
 import java.sql.*;
 import java.util.Vector;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
