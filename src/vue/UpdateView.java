@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import modele.Connexion;
 import modele.EButton;
 import modele.EFrame;
+import net.miginfocom.swing.MigLayout;
 
 /**
  *
@@ -25,7 +26,11 @@ import modele.EFrame;
  */
 public class UpdateView extends EFrame {
     
-    // Eléments graphiques de la fenêtre de mise à jour des données
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// Eléments graphiques de la fenêtre de mise à jour des données
     private final EButton openTableButton = new EButton("Rafraîchir l'affichage de la table");
     private final JTable table = new JTable();
     private final JScrollPane scrollPane = new JScrollPane(table);
@@ -68,13 +73,11 @@ public class UpdateView extends EFrame {
         buttonsPanel.add(buttonInsert);
         buttonsPanel.add(buttonUpdate);
         buttonsPanel.add(buttonDelete);
-        
-        
-        this.setLayout(new GridLayout(4, 1));
-        this.getContentPane().add(openTableButton);
-        this.getContentPane().add(scrollPane);
-        this.getContentPane().add(inputsPanel);
-        this.getContentPane().add(buttonsPanel);
+        getContentPane().setLayout(new MigLayout("", "[436px]", "[][150.00px,grow,fill][66px][bottom]"));
+        this.getContentPane().add(openTableButton, "cell 0 0,grow");
+        this.getContentPane().add(scrollPane, "cell 0 1,grow");
+        this.getContentPane().add(inputsPanel, "cell 0 2,grow");
+        this.getContentPane().add(buttonsPanel, "cell 0 3,grow");
         
     }
     

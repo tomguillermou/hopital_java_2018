@@ -6,7 +6,6 @@
 package vue;
 
 import controleur.ManagerController;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -27,7 +26,12 @@ import net.miginfocom.swing.MigLayout;
  */
 public class ManagerView extends EFrame {
     
-    // Contrôleur de la vue
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	// Contrôleur de la vue
     private final ManagerController managerController;
     
     // Boutons présents dans la fenêtre
@@ -65,18 +69,18 @@ public class ManagerView extends EFrame {
         getContentPane().add(picLabel, "cell 0 0");
         
         // Bouton Update
-        buttonUpdate = new EButton("Update");
+        buttonUpdate = new EButton("Modifier la base de données");
         buttonUpdate.addActionListener(new ButtonUpdateListener());
         
         // Bouton Search
-        buttonSearch = new EButton("Search");
+        buttonSearch = new EButton("Recherche dans la base de données");
         buttonSearch.addActionListener(new ButtonSearchListener());
         
         // Bouton Reporting
-        buttonReporting = new EButton("Reporting");
+        buttonReporting = new EButton("Analyse des données");
         buttonReporting.addActionListener(new ButtonReportingListener());
         this.getContentPane().add(buttonReporting, "cell 0 1,grow");
-        this.getContentPane().add(buttonSearch, "cell 0 2,grow");
+        this.getContentPane().add(buttonSearch, "cell 0 2,alignx center,growy");
         this.getContentPane().add(buttonUpdate, "cell 0 3,grow");
     }
     

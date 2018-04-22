@@ -6,34 +6,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.block.BlockBorder;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-
 import modele.Connexion;
 import modele.EFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JComboBox;
-import javax.swing.JTable;
-
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.BorderFactory;
-import modele.Connexion;
 
 /**
  *
@@ -50,14 +34,15 @@ public class ReportingView extends EFrame implements ActionListener {
 	private ChartPanel chartPanel;
 	private JComboBox<String> comboBox;
 
-    /**
-     *  Constructeur surchargé
-     * @param title
-     * @param height
-     * @param width
-     * @param actionOnClose
-     */
-    public ReportingView(String title, int height, int width, int actionOnClose) {
+	/**
+	 * Constructeur surchargé
+	 * 
+	 * @param title
+	 * @param height
+	 * @param width
+	 * @param actionOnClose
+	 */
+	public ReportingView(String title, int height, int width, int actionOnClose) {
 		super(title, height, width, actionOnClose);
 
 		// Look and feel natif de l'OS hôte
@@ -74,10 +59,8 @@ public class ReportingView extends EFrame implements ActionListener {
 		comboBox = new JComboBox<String>();
 		getContentPane().add(comboBox, "cell 0 0,growx");
 		comboBox.addItem("Personnes hospitalisées par service");
-		comboBox.addItem("Graph2");
-		comboBox.addItem("Graph3");
-		comboBox.addItem("Graph4");
-		comboBox.addItem("Graph5");
+		comboBox.addItem("Docteurs par service");
+		comboBox.addItem("Salaire moyen par service et rotation");
 
 		btnDisplayGraph = new JButton("Afficher");
 		btnDisplayGraph.addActionListener(this);
@@ -90,34 +73,60 @@ public class ReportingView extends EFrame implements ActionListener {
 
 		switch (comboBox.getSelectedIndex()) {
 		case 0:
-			PieDataset dataset = createDataset_MaladeParService();
-			chart = ChartFactory.createPieChart("Nombre de malades par service", dataset);
+			PieDataset dataset1 = createDataset_MaladeParService();
+			chart = ChartFactory.createPieChart("Nombre de malades par service", dataset1);
 			break;
 		case 1:
+			PieDataset dataset3 = createDataset_DocteurParService();
+			chart = ChartFactory.createPieChart("Nombre de docteurs par service", dataset3);
 			break;
 		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
+			DefaultCategoryDataset dataset2 = createDataset_Salaire();
+			chart = ChartFactory.createBarChart("Salaire moyen par service et rotation", "Service", "Salaire moyen",
+					dataset2);
 			break;
 		}
 
 		chartPanel = new ChartPanel(chart);
 	}
 
-	private XYDataset createDummyDataset() {
+	private static PieDataset createDataset_DocteurParService() {
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		ResultSet result = null;
 
-		XYSeries series = new XYSeries("2016");
-		series.add(18, 567);
-		series.add(20, 612);
-		series.add(25, 800);
-		series.add(30, 980);
-		series.add(40, 1410);
-		series.add(50, 2350);
+		double nbAne = 1, nbCar = 1, nbOrt = 1, nbPne = 1, nbRad = 1, nbTra = 1;
+		try {
+			result = Connexion.getInstance().getStatement()
+					.executeQuery("SELECT COUNT(CASE WHEN specialite='Anesthesiste' THEN 1 END) as nbAne,"
+							+ "COUNT(CASE WHEN specialite='Cardiologue' THEN 1 END) as nbCar,"
+							+ "COUNT(CASE WHEN specialite='Orthopediste' THEN 1 END) as nbOrt,"
+							+ "COUNT(CASE WHEN specialite='Pneumologue' THEN 1 END) as nbPne,"
+							+ "COUNT(CASE WHEN specialite='Radiologue' THEN 1 END) as nbRad,"
+							+ "COUNT(CASE WHEN specialite='Traumatologue' THEN 1 END) as nbTra" + " FROM docteur");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		XYSeriesCollection dataset = new XYSeriesCollection();
-		dataset.addSeries(series);
+		try {
+			while (result.next()) {
+				nbAne = result.getDouble("nbAne");
+				nbCar = result.getDouble("nbCar");
+				nbOrt = result.getDouble("nbOrt");
+				nbPne = result.getDouble("nbPne");
+				nbRad = result.getDouble("nbRad");
+				nbTra = result.getDouble("nbTra");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		dataset.setValue("Anesthésiste", nbAne);
+		dataset.setValue("Cardiologue", nbCar);
+		dataset.setValue("Orthopédiste", nbOrt);
+		dataset.setValue("Pneumologue", nbPne);
+		dataset.setValue("Radiologue", nbRad);
+		dataset.setValue("Traumatologue", nbTra);
 
 		return dataset;
 	}
@@ -131,7 +140,6 @@ public class ReportingView extends EFrame implements ActionListener {
 			result = Connexion.getInstance().getStatement().executeQuery(
 					"SELECT COUNT(CASE WHEN code_service='REA' THEN 1 END) as nbRea,COUNT(CASE WHEN code_service='CHG' THEN 1 END) as nbChg,COUNT(CASE WHEN code_service='CAR' THEN 1 END) as nbCar FROM hospitalisation");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -152,32 +160,54 @@ public class ReportingView extends EFrame implements ActionListener {
 		return dataset;
 	}
 
-	private JFreeChart createChart(XYDataset dataset) {
+	private static DefaultCategoryDataset createDataset_Salaire() {
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		ResultSet result1 = null;
+		ResultSet result2 = null;
+		ResultSet result3 = null;
+		ResultSet result4 = null;
+		ResultSet result5 = null;
+		ResultSet result6 = null;
 
-		JFreeChart chart = ChartFactory.createXYLineChart("Average salary per age", "Age", "Salary (€)", dataset,
-				PlotOrientation.VERTICAL, true, true, false);
+		double avgSalReaJour = 1, avgSalReaNuit = 1, avgSalChgJour = 1, avgSalChgNuit = 1, avgSalCarJour = 1,
+				avgSalCarNuit = 1;
+		try {
+			result1 = Connexion.getInstance().getStatement().executeQuery(
+					"SELECT AVG(salaire) as avg FROM infirmier WHERE rotation='JOUR' AND code_service='REA'");
+			while (result1.next())
+				avgSalReaJour = result1.getDouble("avg");
+			result2 = Connexion.getInstance().getStatement().executeQuery(
+					"SELECT AVG(salaire) as avg FROM infirmier WHERE rotation='NUIT' AND code_service='REA'");
+			while (result2.next())
+				avgSalReaNuit = result2.getDouble("avg");
+			result3 = Connexion.getInstance().getStatement().executeQuery(
+					"SELECT AVG(salaire) as avg FROM infirmier WHERE rotation='JOUR' AND code_service='CHG'");
+			while (result3.next())
+				avgSalChgJour = result3.getDouble("avg");
+			result4 = Connexion.getInstance().getStatement().executeQuery(
+					"SELECT AVG(salaire) as avg FROM infirmier WHERE rotation='NUIT' AND code_service='CHG'");
+			while (result4.next())
+				avgSalChgNuit = result4.getDouble("avg");
+			result5 = Connexion.getInstance().getStatement().executeQuery(
+					"SELECT AVG(salaire) as avg FROM infirmier WHERE rotation='JOUR' AND code_service='CAR'");
+			while (result5.next())
+				avgSalCarJour = result5.getDouble("avg");
+			result6 = Connexion.getInstance().getStatement().executeQuery(
+					"SELECT AVG(salaire) as avg FROM infirmier WHERE rotation='NUIT' AND code_service='CAR'");
+			while (result6.next())
+				avgSalCarNuit = result6.getDouble("avg");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-		XYPlot plot = chart.getXYPlot();
+		dataset.addValue(avgSalReaJour, "Jour", "Réanimation");
+		dataset.addValue(avgSalReaNuit, "Nuit", "Réanimation");
+		dataset.addValue(avgSalChgJour, "Jour", "Chirurgie");
+		dataset.addValue(avgSalChgNuit, "Nuit", "Chirurgie");
+		dataset.addValue(avgSalCarJour, "Jour", "Cardiologie");
+		dataset.addValue(avgSalCarNuit, "Nuit", "Cardiologie");
 
-		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-		renderer.setSeriesPaint(0, Color.RED);
-		renderer.setSeriesStroke(0, new BasicStroke(2.0f));
-
-		plot.setRenderer(renderer);
-		plot.setBackgroundPaint(Color.white);
-
-		plot.setRangeGridlinesVisible(true);
-		plot.setRangeGridlinePaint(Color.BLACK);
-
-		plot.setDomainGridlinesVisible(true);
-		plot.setDomainGridlinePaint(Color.BLACK);
-
-		chart.getLegend().setFrame(BlockBorder.NONE);
-
-		chart.setTitle(new TextTitle("Average Salary per Age", new Font("Serif", java.awt.Font.BOLD, 18)));
-
-		return chart;
-
+		return dataset;
 	}
 
 	public void actionPerformed(ActionEvent e) {

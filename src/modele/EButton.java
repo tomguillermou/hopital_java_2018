@@ -17,10 +17,8 @@ public class EButton extends JButton {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String name;
-    
-    public EButton(String name) {
+	
+	public EButton(String name) {
         super(name);
-        this.name = name;
     }
 }

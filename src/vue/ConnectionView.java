@@ -25,7 +25,12 @@ import javax.swing.JSeparator;
  */
 public class ConnectionView extends EFrame {
     
-    // Contrôleur de la fenêtre de connexion
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	// Contrôleur de la fenêtre de connexion
     private final ConnectionController conController;
     
     // Labels database, user, password
