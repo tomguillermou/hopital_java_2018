@@ -23,7 +23,7 @@ public class ApplicationController {
     public static void main(String[] args) {
         
         // Vue de la fenêtre de reporting
-        ReportingView reportingView = new ReportingView("Reporting", 500, 500);
+        ReportingView reportingView = new ReportingView("Reporting", 70, 500);
         
         // Vue de la fenêtre de recherche
         SearchView searchView = new SearchView("Search", 200, 500);

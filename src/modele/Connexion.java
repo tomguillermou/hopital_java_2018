@@ -21,8 +21,13 @@ public class Connexion {
     private static final Connexion INSTANCE = new Connexion();
     
     private Connection connection = null;
+    
     private Statement statement = null;
-    private ResultSet resultSet = null;
+    public Statement getStatement() {
+		return statement;
+	}
+
+	private ResultSet resultSet = null;
     private boolean connectionEstablihed = false;
     
     // Nom des tables dans la base de données "hopital"
@@ -114,8 +119,14 @@ public class Connexion {
         
     }
     
-    public void getTable(String sqlQuery) {
+    public JTable getTable(String sqlQuery) throws SQLException {
+    	resultSet = statement.executeQuery(sqlQuery);
     	
+    	JTable table = new JTable(buildTableModel(resultSet));
+
+        JOptionPane.showMessageDialog(null, new JScrollPane(table));
+        
+        return table;
     }
     
     public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {

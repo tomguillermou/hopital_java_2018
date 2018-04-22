@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vue;
 
 import javax.swing.UIManager;
@@ -17,6 +12,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -25,6 +22,7 @@ import modele.Connexion;
 import modele.EFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -34,10 +32,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
  * @author Maxime
+ * @see http://zetcode.com/java/jfreechart/
  */
 public class ReportingView extends EFrame implements ActionListener {
 
@@ -47,6 +48,7 @@ public class ReportingView extends EFrame implements ActionListener {
 	private static final long serialVersionUID = -6951151443028082767L;
 	private JButton btnDisplayGraph;
 	private ChartPanel chartPanel;
+	private JComboBox<String> comboBox;
 
 	public ReportingView(String title, int height, int width) {
 		super(title, height, width);
@@ -56,15 +58,13 @@ public class ReportingView extends EFrame implements ActionListener {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// Definition of the ReportingView frame
+		// Définition du layout (MigLayout)
+		getContentPane().setLayout(new MigLayout("", "[500.00,grow][grow,right]", "[31.00][]"));
 
-		getContentPane().setLayout(new MigLayout("", "[401.00][grow]", "[31.00][]"));
-
-		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox = new JComboBox<String>();
 		getContentPane().add(comboBox, "cell 0 0,growx");
 		comboBox.addItem("Personnes hospitalisées par service");
 		comboBox.addItem("Graph2");
@@ -74,17 +74,31 @@ public class ReportingView extends EFrame implements ActionListener {
 
 		btnDisplayGraph = new JButton("Afficher");
 		btnDisplayGraph.addActionListener(this);
-		;
 		getContentPane().add(btnDisplayGraph, "cell 1 0,growx");
 	}
-	
+
 	private void chartInit() {
-		// Chart init
-		XYDataset dataset = createDummyDataset();
-		JFreeChart chart = createChart(dataset);
+		// Chart creation
+		JFreeChart chart = null;
+
+		switch (comboBox.getSelectedIndex()) {
+		case 0:
+			PieDataset dataset = createDataset_MaladeParService();
+			chart = ChartFactory.createPieChart("Nombre de malades par service", dataset);
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		}
+
 		chartPanel = new ChartPanel(chart);
-		//chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-		chartPanel.setBackground(Color.white);
+		chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		chartPanel.setBackground(Color.RED);
 	}
 
 	private XYDataset createDummyDataset() {
@@ -103,18 +117,52 @@ public class ReportingView extends EFrame implements ActionListener {
 		return dataset;
 	}
 
-	
+	private static PieDataset createDataset_MaladeParService() {
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		ResultSet result = null;
+
+		double nbRea = 1, nbChg = 1, nbCar = 1;
+		try {
+			result = Connexion.getInstance().getStatement().executeQuery(
+					"SELECT COUNT(CASE WHEN code_service='REA' THEN 1 END) as nbRea,COUNT(CASE WHEN code_service='CHG' THEN 1 END) as nbChg,COUNT(CASE WHEN code_service='CAR' THEN 1 END) as nbCar FROM hospitalisation");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			while (result.next()) {
+				nbRea = result.getDouble("nbRea");
+				nbChg = result.getDouble("nbChg");
+				nbCar = result.getDouble("nbCar");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		dataset.setValue("Réanimation", nbRea);
+		dataset.setValue("Chirurgie", nbChg);
+		dataset.setValue("Cardiologie", nbCar);
+
+		return dataset;
+	}
+
 	// WIP
-	private XYDataset SQLtoDataset (String sqlquery) {
-		
-		//Connexion.getInstance().buildTableModel(Connexion.getInstance().searchTable("hopital", columnName, value);)
+	private XYDataset SQLtoDataset(String sqlQuery) {
+		JTable table = null;
+		try {
+			table = Connexion.getInstance().getTable(sqlQuery);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		XYSeries series = new XYSeries("2016");
-		
+
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series);
-		return dataset;		
+		return dataset;
 	}
-	
+
 	private JFreeChart createChart(XYDataset dataset) {
 
 		JFreeChart chart = ChartFactory.createXYLineChart("Average salary per age", "Age", "Salary (€)", dataset,
@@ -146,6 +194,8 @@ public class ReportingView extends EFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
+		this.setSize(500, 400);
+
 		if (source == this.btnDisplayGraph) {
 			// Delete the old graph
 			this.removeGraph();
@@ -159,7 +209,7 @@ public class ReportingView extends EFrame implements ActionListener {
 	}
 
 	private void removeGraph() {
-		if(chartPanel!=null) {
+		if (chartPanel != null) {
 			getContentPane().remove(this.chartPanel);
 		}
 	}
