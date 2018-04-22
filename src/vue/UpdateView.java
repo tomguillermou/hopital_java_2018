@@ -15,6 +15,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import modele.Connexion;
 import modele.EButton;
 import modele.EFrame;
@@ -135,7 +137,7 @@ public class UpdateView extends EFrame {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            String sqlQuery = "UPDATE `employe` SET `numero`="+fieldNumero.getText()+",`nom`='"+fieldNom.getText()+"',`prenom`='"+fieldPrenom.getText()+"',`adresse`='"+fieldAdresse.getText()+"',`tel`='"+fieldTel.getText()+"'" +
+            String sqlQuery = "UPDATE `employe` SET `nom`='"+fieldNom.getText()+"',`prenom`='"+fieldPrenom.getText()+"',`adresse`='"+fieldAdresse.getText()+"',`tel`='"+fieldTel.getText()+"'" +
             "WHERE `numero`="+fieldNumero.getText();
             
             Connexion.getInstance().executeSqlQuery(sqlQuery, "mises à jour");
@@ -153,6 +155,7 @@ public class UpdateView extends EFrame {
             String sqlQuery = "DELETE FROM `employe` WHERE `numero`="+fieldNumero.getText();
                     
             Connexion.getInstance().executeSqlQuery(sqlQuery, "supprimées");
+            UpdateTable();
         }
         
     }

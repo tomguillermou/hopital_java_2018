@@ -26,7 +26,7 @@ public class ApplicationController {
         ReportingView reportingView = new ReportingView("Reporting", 70, 500);
         
         // Vue de la fenêtre de recherche
-        SearchView searchView = new SearchView("Search", 163, 500);
+        SearchView searchView = new SearchView("Search", 180, 500);
         searchView.setResizable(false);
         
         // Vue de la fenêtre d'update
