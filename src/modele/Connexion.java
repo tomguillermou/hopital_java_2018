@@ -85,15 +85,17 @@ public class Connexion {
     }
 
     /**
-     * Affiche le résultat de la requête SQL selon des critères de recherche
+     * Retourne le résultat de la requête SQL selon des critères de recherche
      * @param tableName
      * @param columnName
      * @param value
+     * @return 
      * @throws java.sql.SQLException
      */
-    public void searchTable(String tableName, String columnName, String value) throws SQLException {
+    public ResultSet searchTable(String tableName, String columnName, String value) throws SQLException {
         
-        String querySQL = null;
+        // Requête SQL qui va être effectuée
+        String querySQL;
         
         if(columnName.equals("tout")) {
             querySQL = "select * from " + tableName;
@@ -106,9 +108,8 @@ public class Connexion {
         }
         
         resultSet = statement.executeQuery(querySQL);
-        JTable table = new JTable(buildTableModel(resultSet));
-        JOptionPane.showMessageDialog(null, new JScrollPane(table));
         
+        return resultSet;
     }
     
     public void getTable(String sqlQuery) {
@@ -116,7 +117,7 @@ public class Connexion {
     }
     
     /**
-     * Creates and return a DefaultTableModel built with a SQL query
+     * Creates and return a DefaultTableModel built with a ResultSet variable
      * Function written by: https://stackoverflow.com/users/870248/paul-vargas
      * Reference to the StackOverflow post: https://stackoverflow.com/questions/10620448/most-simple-code-to-populate-jtable-from-resultset
      * @param rs
