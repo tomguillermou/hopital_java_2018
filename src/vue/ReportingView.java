@@ -50,8 +50,15 @@ public class ReportingView extends EFrame implements ActionListener {
 	private ChartPanel chartPanel;
 	private JComboBox<String> comboBox;
 
-	public ReportingView(String title, int height, int width) {
-		super(title, height, width);
+    /**
+     *  Constructeur surchargé
+     * @param title
+     * @param height
+     * @param width
+     * @param actionOnClose
+     */
+    public ReportingView(String title, int height, int width, int actionOnClose) {
+		super(title, height, width, actionOnClose);
 
 		// Look and feel natif de l'OS hôte
 		try {

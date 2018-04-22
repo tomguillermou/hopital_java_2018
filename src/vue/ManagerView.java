@@ -35,10 +35,18 @@ public class ManagerView extends EFrame {
     private final EButton buttonSearch;
     private final EButton buttonUpdate;
     
-    public ManagerView(ManagerController managerController, String title, int height, int width) {
+    /**
+     *  Constructeur surchargé
+     * @param managerController
+     * @param title
+     * @param height
+     * @param width
+     * @param actionOnClose
+     */
+    public ManagerView(ManagerController managerController, String title, int height, int width, int actionOnClose) {
         
         // Appel le constructeur de la classe mère
-        super(title, height, width);
+        super(title, height, width, actionOnClose);
         
         // Lie le contrôleur de la fenêtre avec celui passé en paramètre
         this.managerController = managerController;

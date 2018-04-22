@@ -21,7 +21,7 @@ public abstract class EFrame extends JFrame {
     private final int height;
     private final int width;
     
-    public EFrame(String title, int height, int width) {
+    public EFrame(String title, int height, int width, int actionOnClose) {
         
         this.title = title;
         this.height = height;
@@ -30,7 +30,7 @@ public abstract class EFrame extends JFrame {
         this.setTitle(this.title);
         this.setSize(this.width, this.height);
         //this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(actionOnClose);
     }
     
     public void showEFrame() {

@@ -46,9 +46,10 @@ public class UpdateView extends EFrame {
      * @param tittle
      * @param height
      * @param width 
+     * @param actionOnClose 
      */
-    public UpdateView(String tittle, int height, int width) {
-        super(tittle, height, width);
+    public UpdateView(String tittle, int height, int width, int actionOnClose) {
+        super(tittle, height, width, actionOnClose);
         
         openTableButton.addActionListener(new ButtonOpenTableListener());
         
@@ -135,7 +136,7 @@ public class UpdateView extends EFrame {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            String sqlQuery = "UPDATE `employe` SET `numero`="+fieldNumero.getText()+",`nom`='"+fieldNom.getText()+"',`prenom`='"+fieldPrenom.getText()+"',`adresse`='"+fieldAdresse.getText()+"',`tel`='"+fieldTel.getText()+"'" +
+            String sqlQuery = "UPDATE `employe` SET `nom`='"+fieldNom.getText()+"',`prenom`='"+fieldPrenom.getText()+"',`adresse`='"+fieldAdresse.getText()+"',`tel`='"+fieldTel.getText()+"'" +
             "WHERE `numero`="+fieldNumero.getText();
             
             Connexion.getInstance().executeSqlQuery(sqlQuery, "mises à jour");
@@ -153,6 +154,7 @@ public class UpdateView extends EFrame {
             String sqlQuery = "DELETE FROM `employe` WHERE `numero`="+fieldNumero.getText();
                     
             Connexion.getInstance().executeSqlQuery(sqlQuery, "supprimées");
+            UpdateTable();
         }
         
     }
