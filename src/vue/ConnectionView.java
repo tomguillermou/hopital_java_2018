@@ -9,6 +9,7 @@ import controleur.ConnectionController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -62,10 +63,10 @@ public class ConnectionView extends EFrame {
         
         // Lie le contrôleur passé en paramètre au contrôleur de la classe
         this.conController = conController;
-        getContentPane().setLayout(new MigLayout("", "[74.00px][164.00,grow,fill]", "[30.00px][][30.00px][][21.00][40.00]"));
+        getContentPane().setLayout(new MigLayout("", "[74.00px][164.00,grow,fill]", "[30.00px][][30.00px][][21.00][40.00,grow]"));
         
         // Initialise les composants
-        labelDatabase = new JLabel("Database :");
+        labelDatabase = new JLabel("Base de données :");
         getContentPane().add(labelDatabase, "cell 0 0,alignx right");
         fieldDatabase = new JTextField();
         fieldDatabase.setText("hopital");
@@ -73,14 +74,14 @@ public class ConnectionView extends EFrame {
         
         separator_1 = new JSeparator();
         getContentPane().add(separator_1, "cell 0 1 2 1,growx");
-        labelUser = new JLabel("User :");
+        labelUser = new JLabel("Utilisateur :");
         getContentPane().add(labelUser, "cell 0 2,alignx right");
         fieldUser = new JTextField();
         fieldUser.setText("root");
         getContentPane().add(fieldUser, "cell 1 2,growx");
-        labelPassword = new JLabel("Password :");
+        labelPassword = new JLabel("Mot de passe :");
         getContentPane().add(labelPassword, "cell 0 3,alignx right");
-        fieldPassword = new JTextField();
+        fieldPassword = new JPasswordField();
         getContentPane().add(fieldPassword, "cell 1 3,growx");
         
         // Création du bouton de connexion

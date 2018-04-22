@@ -13,7 +13,11 @@ import javax.swing.JButton;
  */
 public class EButton extends JButton {
     
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String name;
     
     public EButton(String name) {
         super(name);
