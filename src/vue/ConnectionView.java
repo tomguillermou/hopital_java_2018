@@ -1,62 +1,61 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Fenêtre de connexion
  */
 package vue;
 
+/**
+ * Librairies importées
+ */
 import controleur.ConnectionController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import modele.EButton;
 import modele.EFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JSeparator;
 
 /**
- *  Design-pattern Singleton
- * @author Tom
+ *  Fenêtre de connexion
+ * @author Tom Guillermou, Maxime Michel
  */
 public class ConnectionView extends EFrame {
-    
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	// Contrôleur de la fenêtre de connexion
-    private final ConnectionController conController;
+    private static final long serialVersionUID = 1L;
     
-    // Labels database, user, password
+    // Contrôleur de la fenêtre de connexion
+    private final ConnectionController connectionController;
+    
+    // Eléments graphiques de la fenêtre de connexion
     private final JLabel labelDatabase;
     private final JLabel labelUser;
     private final JLabel labelPassword;
+    private final JButton buttonConnection;
+    private final JSeparator separator_1;
     
-    // Text fields database, user, password
+    // Entrées utilisateur de la fenêtre de connexion
     private final JTextField fieldDatabase;
     private final JTextField fieldUser;
     private final JTextField fieldPassword;
     
-    private final EButton buttonConnection;
-    private final JSeparator separator_1;
-    
     /**
      * Constructeur surchargé
-     * @param conController
-     * @param title
-     * @param height
-     * @param width
-     * @param actionOnClose
+     * @param connectionController Contrôleur associé à la fenêtre
+     * @param title Titre de la fenêtre 
+     * @param height Hauteur de la fenêtre
+     * @param width Largeur de la fenêtre
+     * @param actionOnClose Action à effectuer lors de la fermeture de la fenêtre
      */
-    public ConnectionView(ConnectionController conController, String title, int height, int width, int actionOnClose) {
+    public ConnectionView(ConnectionController connectionController, String title, int height, int width, int actionOnClose) {
         // Appel du constructeur de la classe mère
         super(title, height, width, actionOnClose);
+        
+        // Lie le contrôleur passé en paramètre au contrôleur de la classe
+        this.connectionController = connectionController;
         
         // Look and feel natif de l'OS hôte
         try {
@@ -67,8 +66,6 @@ public class ConnectionView extends EFrame {
 			e.printStackTrace();
 		}
         
-        // Lie le contrôleur passé en paramètre au contrôleur de la classe
-        this.conController = conController;
         getContentPane().setLayout(new MigLayout("", "[74.00px][164.00,grow,fill]", "[30.00px][][30.00px][][21.00][40.00,grow]"));
         
         // Initialise les composants
@@ -89,31 +86,32 @@ public class ConnectionView extends EFrame {
         getContentPane().add(labelPassword, "cell 0 3,alignx right");
         fieldPassword = new JPasswordField();
         getContentPane().add(fieldPassword, "cell 1 3,growx");
+        buttonConnection = new JButton("Connexion");
+        getContentPane().add(buttonConnection, "cell 0 5 2 1,grow");
         
-        // Création du bouton de connexion
-        buttonConnection = new EButton("Connexion");
-        // Ajoute un ActionListener adapté au bouton de connexion
+        // Ajout de l'ActionListener du bouton de connexion
         buttonConnection.addActionListener(new ButtonConnectionListener());
-        // Ajout du bouton au panneau principal
-        this.getContentPane().add(buttonConnection, "cell 0 5 2 1,grow");
         
     }
-        
+    
+    /**
+     * Classe interne implémentant l'interface ActionListener
+     */
     class ButtonConnectionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             
-            // Récupère les données des champs de saisie de texte
+            // Récupère les données entrées par l'utilisateur
             String database = fieldDatabase.getText();
             String user = fieldUser.getText();
             String password = fieldPassword.getText();
             
-            // Appel à la fonction de connexion du contrôleur
-            conController.ButtonConnectionPressed(database, user, password);
+            // Comportement du bouton de connexion
+            connectionController.ButtonConnectionPressed(database, user, password);
             
-            // Libère la fenêtre de connexion si la fenêtre suivante est affichée
-            if(conController.isNextFrameShown()) {
+            // Ferme la fenêtre de connexion si la fenêtre de gestion est visible
+            if(connectionController.isManagerViewVisible()) {
                 dispose();
             }
         }
