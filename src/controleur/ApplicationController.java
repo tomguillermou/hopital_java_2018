@@ -31,7 +31,7 @@ public class ApplicationController {
         searchView.setResizable(false);
         
         // Vue de la fenêtre d'update
-        UpdateView updateView = new UpdateView("Mise à jour", 500, 500, JFrame.HIDE_ON_CLOSE);
+        UpdateView updateView = new UpdateView("Mise à jour", 500, 800, JFrame.HIDE_ON_CLOSE);
         
         // Contrôleur de la fenêtre de gestion
         ManagerController manangerController = new ManagerController(reportingView, searchView, updateView);

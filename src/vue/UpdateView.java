@@ -19,6 +19,8 @@ import modele.Connexion;
 import modele.EButton;
 import modele.EFrame;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
 
 /**
  *
@@ -34,7 +36,6 @@ public class UpdateView extends EFrame {
     private final EButton openTableButton = new EButton("Rafraîchir l'affichage de la table");
     private final JTable table = new JTable();
     private final JScrollPane scrollPane = new JScrollPane(table);
-    private final JPanel inputsPanel = new JPanel(new GridLayout(1, 5));
     private final EButton buttonInsert = new EButton("Ajouter");
     private final EButton buttonUpdate = new EButton("Mettre à jour");
     private final EButton buttonDelete = new EButton("Supprimer");
@@ -45,6 +46,12 @@ public class UpdateView extends EFrame {
     private final JTextField fieldPrenom = new JTextField();
     private final JTextField fieldAdresse = new JTextField();
     private final JTextField fieldTel = new JTextField();
+    private final JLabel lblNumro = new JLabel("Numéro");
+    private final JLabel lblNom = new JLabel("Nom");
+    private final JLabel lblPrnom = new JLabel("Prénom");
+    private final JLabel lblAdresse = new JLabel("Adresse");
+    private final JLabel lblTlphone = new JLabel("Téléphone");
+    private final JSeparator separator = new JSeparator();
     
     /**
      * Constructeur surchargé
@@ -59,25 +66,35 @@ public class UpdateView extends EFrame {
         openTableButton.addActionListener(new ButtonOpenTableListener());
         
         table.getSelectionModel().addListSelectionListener(new TableSelection());
+        getContentPane().setLayout(new MigLayout("", "[436px,grow][][150.00,grow]", "[][35.00][35.00][35.00][60.00][35.00][][][115.00,grow]"));
+        this.getContentPane().add(openTableButton, "cell 0 0,grow");
+        this.getContentPane().add(scrollPane, "cell 0 1 1 8,grow");
         
-        inputsPanel.add(fieldNumero);
-        inputsPanel.add(fieldNom);
-        inputsPanel.add(fieldPrenom);
-        inputsPanel.add(fieldAdresse);
-        inputsPanel.add(fieldTel);
+        getContentPane().add(lblNumro, "cell 1 1,alignx trailing");
+        getContentPane().add(fieldNumero, "cell 2 1,growx");
+        
+        getContentPane().add(lblNom, "cell 1 2,alignx trailing");
+        getContentPane().add(fieldNom, "cell 2 2,growx");
+        
+        getContentPane().add(lblPrnom, "cell 1 3,alignx trailing");
+        getContentPane().add(fieldPrenom, "cell 2 3,growx");
+        
+        getContentPane().add(lblAdresse, "cell 1 4,alignx trailing");
+        getContentPane().add(fieldAdresse, "cell 2 4,grow");
+        
+        getContentPane().add(lblTlphone, "cell 1 5,alignx trailing");
+        getContentPane().add(fieldTel, "cell 2 5,growx");
         
         buttonInsert.addActionListener(new ButtonInsertListener());
         buttonUpdate.addActionListener(new ButtonUpdateListener());
         buttonDelete.addActionListener(new ButtonDeleteListener());
         
+        getContentPane().add(separator, "cell 1 6 2 1,growx");
+        
         buttonsPanel.add(buttonInsert);
         buttonsPanel.add(buttonUpdate);
         buttonsPanel.add(buttonDelete);
-        getContentPane().setLayout(new MigLayout("", "[436px]", "[][150.00px,grow,fill][66px][bottom]"));
-        this.getContentPane().add(openTableButton, "cell 0 0,grow");
-        this.getContentPane().add(scrollPane, "cell 0 1,grow");
-        this.getContentPane().add(inputsPanel, "cell 0 2,grow");
-        this.getContentPane().add(buttonsPanel, "cell 0 3,grow");
+        this.getContentPane().add(buttonsPanel, "cell 1 7 2 1,grow");
         
     }
     

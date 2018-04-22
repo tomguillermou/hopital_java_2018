@@ -60,7 +60,7 @@ public class ManagerView extends EFrame {
         //Image d'accueil
         BufferedImage myPicture = null;
 		try {
-			myPicture = ImageIO.read(new File("res\\logo.png"));
+			myPicture = ImageIO.read(new File("res/logo.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

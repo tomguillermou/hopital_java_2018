@@ -103,7 +103,7 @@ public class SearchView extends EFrame {
 		fieldValue = new JTextField();
 		getContentPane().add(fieldValue, "cell 1 2,grow");
 
-		buttonSearch.setIcon(new ImageIcon("res\\search32.png"));
+		buttonSearch.setIcon(new ImageIcon("res/search32.png"));
 		buttonSearch.addActionListener(new ButtonSearchListener());
 		container.add(buttonSearch, "cell 1 3,alignx right,growy");
 
