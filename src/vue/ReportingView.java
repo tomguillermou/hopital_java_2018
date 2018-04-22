@@ -17,6 +17,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import modele.Connexion;
 import modele.EFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JComboBox;
@@ -94,8 +95,6 @@ public class ReportingView extends EFrame implements ActionListener {
 		}
 
 		chartPanel = new ChartPanel(chart);
-		chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-		chartPanel.setBackground(Color.RED);
 	}
 
 	private XYDataset createDummyDataset() {
@@ -141,22 +140,6 @@ public class ReportingView extends EFrame implements ActionListener {
 		dataset.setValue("Chirurgie", nbChg);
 		dataset.setValue("Cardiologie", nbCar);
 
-		return dataset;
-	}
-
-	// WIP
-	private XYDataset SQLtoDataset(String sqlQuery) {
-		JTable table = null;
-		try {
-			table = Connexion.getInstance().getTable(sqlQuery);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		XYSeries series = new XYSeries("2016");
-
-		XYSeriesCollection dataset = new XYSeriesCollection();
-		dataset.addSeries(series);
 		return dataset;
 	}
 

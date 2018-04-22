@@ -13,7 +13,11 @@ import javax.swing.JFrame;
  */
 public abstract class EFrame extends JFrame {
     
-    private final String title;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final String title;
     private final int height;
     private final int width;
     
