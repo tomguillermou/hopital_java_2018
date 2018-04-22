@@ -60,10 +60,17 @@ public class SearchView extends EFrame {
 			new String[] { "tout", "no_docteur", "no_malade" });
 	private final JSeparator separator = new JSeparator();
 
-	public SearchView(String tittle, int height, int width) {
+    /**
+     * Constructeur surchargé
+     * @param tittle
+     * @param height
+     * @param width
+     * @param actionOnClose
+     */
+    public SearchView(String tittle, int height, int width, int actionOnClose) {
 
 		// Appel le constructeur de la classe mère
-		super(tittle, height, width);
+		super(tittle, height, width, actionOnClose);
 
 		// Initialise le container & lui ajoute un FlowLayout
 		container = this.getContentPane();

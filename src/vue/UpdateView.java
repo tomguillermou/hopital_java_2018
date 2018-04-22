@@ -46,9 +46,10 @@ public class UpdateView extends EFrame {
      * @param tittle
      * @param height
      * @param width 
+     * @param actionOnClose 
      */
-    public UpdateView(String tittle, int height, int width) {
-        super(tittle, height, width);
+    public UpdateView(String tittle, int height, int width, int actionOnClose) {
+        super(tittle, height, width, actionOnClose);
         
         openTableButton.addActionListener(new ButtonOpenTableListener());
         

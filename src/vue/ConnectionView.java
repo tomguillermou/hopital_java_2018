@@ -47,10 +47,11 @@ public class ConnectionView extends EFrame {
      * @param title
      * @param height
      * @param width
+     * @param actionOnClose
      */
-    public ConnectionView(ConnectionController conController, String title, int height, int width) {
+    public ConnectionView(ConnectionController conController, String title, int height, int width, int actionOnClose) {
         // Appel du constructeur de la classe mère
-        super(title, height, width);
+        super(title, height, width, actionOnClose);
         
         // Look and feel natif de l'OS hôte
         try {
