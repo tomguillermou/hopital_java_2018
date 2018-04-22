@@ -129,8 +129,7 @@ public class SearchView extends EFrame {
             String value = fieldValue.getText();
             
             try {
-                table.setModel(Connexion.getInstance().buildTableModel(Connexion.getInstance().
-                        searchTable(tableName, columnName, value)));
+                table.setModel(Connexion.getInstance().buildTableModel(Connexion.getInstance().searchTable(tableName, columnName, value)));
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }

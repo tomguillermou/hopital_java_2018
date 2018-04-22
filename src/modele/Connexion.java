@@ -124,7 +124,7 @@ public class Connexion {
      * @return DefaultTableModel
      * @throws SQLException
      */
-    public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
+    public DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
         ResultSetMetaData metaData = rs.getMetaData();
 
